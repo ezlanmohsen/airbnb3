@@ -1,0 +1,20 @@
+<h1>To Del : All reservations</h1>
+
+<%@reservations.each do |reservation|%>
+
+	<br>
+	ID:<%=reservation.id%> User:<%=reservation.user.first_name%> Listing:<%=reservation.listing.name%> Check In:<%=reservation.check_in_date%> Check Out:<%=reservation.check_in_date%>
+	<br>
+	Owner: <%=reservation.listing.user.email%>
+	<h6>STATUS:<%=reservation.status%></h6>
+	<br>
+	<br>
+<%end%>
+
+
+
+<br>
+<br>
+<br>
+<br>
+<p>Note to del: R - Res#Index. Index.erb</p>

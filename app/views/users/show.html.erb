@@ -1,0 +1,100 @@
+
+	<h1 class="text-center">THIS IS YOUR PROFILE PAGE, <%=@user.first_name%>!</h1>
+
+	<div class="container-fluid jumbotron text-center">
+		<h6>Account details:</h6>
+		<div class="row">
+			<p class="col-lg-3 col-md-6">Name: <%="#{@user.first_name} #{@user.last_name}"%></p>
+			<p class="col-lg-3 col-md-6">Email Address: <%="#{@user.email}"%></p>
+			<p class="col-lg-3 col-md-6">Member since: <%="#{@user.created_at}"%></p> <!-- Fix so just get date -->
+			<p class="col-lg-3 col-md-6">Date of Birth: <%="#{@user.birthdate}"%></p>
+		</div>
+		<p class="font-weight-bold text-uppercase">You are a(n): <%="#{@user.role}"%></p>
+			<%if current_user.avatar.present?%>
+			<p>This is how you look like: <%= image_tag current_user.avatar.url%> </p>
+			<%end%>		
+		<div>
+			<a href="#" class="text-danger">???Edit your profile???</a>
+		</div>
+	</div>
+
+	<br>
+	<%= link_to 'Create a new listing!', new_listing_path %>
+	<br>
+	<br>
+
+
+	<div>
+	<p>This is the list of all your listings!</p>
+		<div>
+
+			<%@user.listings.reverse.each do |listing|%>
+			<div>
+				<a href="/listings/<%=listing.id%>">ID:<%=listing.id%> => Name:<%=listing.name%></a><br>
+				<a href="/listings/<%=listing.id%>/edit">Edit Listing</a>
+				<%= link_to 'Delete Listing', delete_listing_path(listing), method: :delete %>
+				if 
+					<%if @reservations.find_by(listing_id: listing.id) != nil%> 
+						<%if @reservations.find_by(listing_id: listing.id).status == 'booked'%>
+							<div>
+								<p class="alert alert-primary">You need to approve these reservations!</p>
+								<%@reservations.where(listing_id: listing.id, status: 0).each do |listing_reservation|%>
+									<%=listing_reservation.user.first_name%> booked for <%=listing_reservation.check_in_date%> until <%=listing_reservation.check_in_date%>
+									<%= link_to 'Approve now!', approve_reservation_path(listing_reservation), method: :patch %>
+									<br>
+								<%end%>
+							</div>
+						<%end%>
+					<%end%>
+				<div>
+					<%listing.images.each do |p|%>
+						<%=image_tag(p.url, height: '100', width: '100')%>
+					<%end%>
+				</div> 
+				<div>
+					Related Tags:
+					<%@listing_tags.where(listing_id: listing.id).each do |lt|%>
+						<a href="/tags/<%=lt.tag.id%>"><%=lt.tag.name%></a>
+					<%end%>
+				</div>
+				<div>
+					<!-- Form on user is to create tags (if unavailable) -->
+					<%=form_for(@tag, url:create_tag_path) do |form|%>
+						<!-- tagname field %> -->
+						<div>
+							<%= form.label :new_tag %> 
+							<!-- form.label gives the printed name of that field. Can change -->
+							<%= form.text_field :name, placeholder: 'Near to MRT' %>
+							<!-- Hidden text field carrying variable unrelated to mode -->
+							<%= form.hidden_field :listing_id, :value => listing.id %>
+						</div>	 
+						<%=form.submit%>
+					<% end %>
+				</div>
+				<br>
+			</div>
+			<%end%>
+		</div>
+	</div>
+
+	<div>
+		<h5>You have some reservations pending! <span class="badge badge-secondary">New</span></h5>
+
+		<%@reservations.where(user_id: current_user.id).reverse.each do |reservation|%>
+			Property: <%=reservation.listing.name%><br>
+			Check-in Time: <%=reservation.check_in_date%><br>
+			Check-out Time: <%=reservation.check_out_date%><br>
+			Status: <%=reservation.status%><br>
+			Made on: <%=reservation.created_at%>
+			<br><br>
+		<%end%>
+	</div>
+
+	Or go to <%= link_to "Homepage", root_path	%>
+
+
+<br>
+<br>
+<br>
+<br>
+<p>Note to del: R - Users#Show. Show.erb</p>

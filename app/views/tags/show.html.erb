@@ -1,0 +1,16 @@
+<h2>You want to know all the listings with tag: <%= @tag.name %></h2>
+
+<%@listing_tags.each do |lt|%>
+	<div>
+		Property: <%=lt.listing.name%>
+		Listed by: <%=lt.listing.user.first_name%>
+		on the: <%=lt.listing.created_at%>
+	</div>
+<%end%>
+
+
+<br>
+<br>
+<br>
+<br>
+<p>Note to del: R - Tags#Show. show.erb</p>	

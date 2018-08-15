@@ -1,0 +1,51 @@
+<%if @listing.user.id == current_user.id%> 
+
+	<h2>You are editing your listing named <%=@listing.name%>!</h2>
+
+	<div> Details of your listing:
+		<div>
+			Listed by: <%=@listing.user.first_name%><br>
+			Name of property: <%=@listing.name%><br>
+			Property Description: <%=@listing.description%><br>
+			Address: <%=@listing.address_1%>, <%=@listing.address_2%>, <%=@listing.postcode%><br>
+			State: <%=@listing.state%><br>
+			Country: <%=@listing.country%><br>
+			Number of bedroom: <%=@listing.bedroom%><br>
+			Number of bed: <%=@listing.bed%><br>
+			Number of bathroom: <%=@listing.bathroom%><br>
+			Space available: <%=@listing.space%><br>
+			Maximum guest(s) allowed: <%=@listing.max_guest%><br>
+			Price per night ranges from (RM): <%=@listing.min_price%> - <%=@listing.max_price%>
+			<div>
+			Photo Gallery:<br>
+				<%@listing.images.each do |p|%>
+							<%=image_tag(p.url, height: '100', width: '100')%>
+				<%end%>
+			</div>
+		</div>
+	</div>
+
+	<br>
+	<br>
+
+	<div>EDIT NOW!
+		<%=form_for(@listing) do |form|%>
+			<%= render partial: '/listings/form', object: form %>
+
+
+			<%=form.submit%>
+		<%end%>
+	</div>
+
+<%else%>
+
+	<div>You are not allowed to edit this listing!</div>
+	go to your profile <%= link_to "here", user_path(current_user) %>
+
+<%end%>
+
+<br>
+<br>
+<br>
+<br>
+<p>Note to del: R - Listings#Edit. Edit.erb</p>

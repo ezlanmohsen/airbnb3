@@ -1,0 +1,24 @@
+<h4>Hi,<%= current_user.first_name %>! Let's make some money by hosting a house!</h4>
+
+<p>??? Form to fill up listing table???</p>
+
+<%=form_for @listing do |form|%>
+	<%= render partial: '/listings/form', object: form %>
+
+	<%=form.submit%>
+<%end%>
+
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:90%">90%</div>
+  </div>
+
+
+<br>
+<br>
+<br>
+<br>
+<p>Note to del: R - Listings#New. New.erb</p>
+
+
+
+

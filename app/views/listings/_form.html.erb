@@ -1,0 +1,80 @@
+	<div>
+		<%= form.label :name %> 
+		<!-- form.label gives the printed name of that field. Can change -->
+		<%= form.text_field :name, placeholder: 'Name of home' %>
+	</div>
+
+	
+
+	<div>
+		<%= form.label :description %> 
+		<%= form.text_field :description, placeholder: 'Describe your home!' %>
+	</div>
+
+	<div>
+		<%= form.label 'Unit No / Apartment Name' %> 
+		<%= form.text_field :address_1, placeholder: 'B-1-1, Blackwater Condo' %>
+	</div>
+
+	<div>
+		<%= form.label 'Street Name' %> 
+		<%= form.text_field :address_2, placeholder: 'Jalan Hercules, Taman Hulk' %>
+	</div>
+
+	<div>
+		<%= form.label :postcode %> 
+		<%= form.text_field :postcode, placeholder: '12345' %>
+	</div>
+
+	<div>
+		<%= form.label :state %> 
+		<%= form.text_field :state, placeholder: 'Perlis' %>
+	</div>
+
+	<div>
+		<%= form.label :country %> 
+		<%= form.text_field :country, placeholder: 'Asgard' %>
+	</div>
+
+	<div>
+		<%= form.label :No_of_bedroom %> 
+		<%= form.text_field :bedroom, type: 'number', placeholder: '1' %>
+	</div>
+
+	<div>
+		<%= form.label :No_of_bed %> 
+		<%= form.text_field :bed, type: 'number', placeholder: '3' %>
+	</div>
+
+	<div>
+		<%= form.label :No_of_bathroom %> 
+		<%= form.text_field :bathroom, type: 'number', placeholder: '2' %>
+	</div>
+
+	<div>
+		<%= form.label :space_available %> 
+		<%= form.text_field :space, placeholder: 'Living Room' %>
+	</div>
+
+	<div>
+		<%= form.label :maximum_guest %> 
+		<%= form.text_field :max_guest, type: 'number', placeholder: '10' %>
+	</div>
+
+	<div>
+		<%= form.label 'minimum price per night(RM)' %> 
+		<%= form.text_field :min_price, type: 'number', placeholder: '500' %>
+	</div>
+
+	<div>
+		<%= form.label 'maximum price per night(RM)' %> 
+		<%= form.text_field :max_price, type: 'number', placeholder: '2500' %>
+	</div>
+
+	<div>
+		<%= form.label 'Upload images of your property' %>
+		<%= form.file_field :images, multiple: true %>
+	</div>
+
+
+

@@ -1,0 +1,12 @@
+
+	<div>
+		<%= form.label :check_in_date %> 
+		<%= form.date_field :check_in_date, :value => Time.now.strftime('%Y-%m-%d')%>
+	</div>
+	
+	<div>
+		<%= form.label :check_out_date %> 
+		<%= form.date_field :check_out_date, :value => Time.now.strftime('%Y-%m-%d')%>
+	</div>
+
+	<%= form.hidden_field :listing_id, :value => @listing.id %>
