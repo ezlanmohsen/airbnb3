@@ -1,12 +1,46 @@
-<head>
-  <meta charset="utf-8">
-  <script src="https://js.braintreegateway.com/web/dropin/1.12.0/js/dropin.min.js"></script>
-</head>
 
-<body>
+  <script src="https://js.braintreegateway.com/web/dropin/1.12.0/js/dropin.min.js"></script>
 	Test page: Payment for reservation no xxx
-	
-	<div id="dropin-container"></div>
+
+	<div class="demo-frame">
+
+	  <%= form_for :checkout_form, url: checkout_pay_reservation_path, html: { id: "cardForm"} do |form| %>
+
+	  	<%= form.hidden_field "token", id: "token", value: @client_token %>
+
+	    <%= form.label :card_number, "Credit Card Number", html: {class: "hosted-fields--label"} %>
+	    <div id="card-number" class="hosted-field"></div>
+
+	    <%= form.label :expiration_date, "Expiration Date", html: {class: "hosted-fields--label"} %>
+	    <div id="expiration-date" class="hosted-field"></div>
+
+	    <%= form.label :cvv, "CVV", html: {class: "hosted-fields--label"} %>
+	    <div id="cvv" class="hosted-field"></div>
+
+	    <%= form.hidden_field "payment_method_nonce" %>
+
+	    <div class="button-container">
+	      <%= form.submit "Purchase", disabled: true, class: "btn btn-primary", id: "submit-payment-btn" %>
+	    </div>
+	  <% end %>
+	</div>
+
+	<!-- from braintree - schools -->
+
+	<!-- Load the Client component. -->
+	<script src="https://js.braintreegateway.com/web/3.6.3/js/client.min.js"></script>
+
+	<!-- Load the Hosted Fields component. -->
+	<script src="https://js.braintreegateway.com/web/3.6.3/js/hosted-fields.min.js"></script>
+
+
+
+
+
+
+
+
+<!-- 	<div id="dropin-container"></div>
 	  <button id="submit-button">Request payment method</button>
 	  <script>
 	    var button = document.querySelector('#submit-button');
@@ -21,7 +55,7 @@
 	        });
 	      });
 	    });
-	  </script>
+	  </script> -->
 
 	
 

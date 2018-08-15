@@ -28,6 +28,8 @@ Rails.application.routes.draw do
 
   get "/listings/:listing_id/reservations/:id/payment" => "reservations#payment", as: "pay_reservation"
 
+  post "/listings/:listing_id/reservations/:id/payment/checkout" => "reservations#checkout", as: "checkout_pay_reservation"
+
   #placeholder verify to test admin role
   patch "/listings/:id/verify" => "listings#verify", as: "verify_listing"
 

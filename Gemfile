@@ -67,6 +67,10 @@ gem 'bootstrap4-datetime-picker-rails'
 # https://github.com/bootstrap-ruby/will_paginate-bootstrap
 gem 'will_paginate-bootstrap'
 
+#Payment gateway Braintree https://developers.braintreepayments.com/start/hello-server/ruby
+
+gem "braintree", "~> 2.90.0"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
