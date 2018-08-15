@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
   patch "/reservations/:id/approve" => "reservations#approve", as: "approve_reservation"
 
+  get "/listings/:listing_id/reservations/:id/payment" => "reservations#payment", as: "pay_reservation"
+
   #placeholder verify to test admin role
   patch "/listings/:id/verify" => "listings#verify", as: "verify_listing"
 
