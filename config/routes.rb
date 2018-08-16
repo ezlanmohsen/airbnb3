@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
   get 'reservations/index'
   get 'reservations/show'
   get 'reservations/new'
@@ -49,6 +52,9 @@ Rails.application.routes.draw do
 
   #googleapi
   get "/auth/:provider/callback" => "sessions#create_from_omniauth"
+
+  # for sidekiq
+
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
