@@ -6,14 +6,18 @@ class ReservationsController < ApplicationController
   def create
   	@reservation = Reservation.new(reservation_params)
   	@reservation.user_id = current_user.id
+    # byebug
   	if @reservation.save
-      ReservationMailer.booking_email(current_user, @reservation.listing.user, @reservation.id).deliver
+      #using sidekiq but not the job file
+      ReservationMailer.booking_email(current_user, @reservation.listing.user, @reservation.id).deliver_later(wait: 1.minute)
+      # ReservationJob.perform_later(current_user, @reservation.listing.user, @reservation.id)
+      # ReservationMailer.booking_email(current_user, @reservation.listing.user, @reservation.id).deliver
   		redirect_to user_path(current_user)
   	else
       # debugger
   		# redirect_to new_reservation_path(:id => @reservation.listing_id) , notice: "Your booking has failed"
       @reservations = Reservation.all
-      render 'reservations', :flash => { :error => "Reservation failed. Please try again." }
+      redirect_back fallback_location: root_path, :flash => { :error => "Reservation failed. Please try again." }
     end
   end
 
@@ -62,8 +66,10 @@ class ReservationsController < ApplicationController
         # byebug
       end
       # byebug
+      #use sidekiq job
+      PaymentJob.perform_later(User.find(reservation_to_approve.user_id), reservation_to_approve, Listing.find(reservation_to_approve.user_id), result.transaction.amount)
       # mailer
-      ReservationMailer.payment_made_email(User.find(reservation_to_approve.user_id), reservation_to_approve, Listing.find(reservation_to_approve.user_id), result.transaction.amount).deliver
+      # ReservationMailer.payment_made_email(User.find(reservation_to_approve.user_id), reservation_to_approve, Listing.find(reservation_to_approve.user_id), result.transaction.amount).deliver
       redirect_to :root, :flash => { :success => "Transaction successful!" }
     else
       redirect_to :root, :flash => { :error => "Transaction failed. Please try again." }
