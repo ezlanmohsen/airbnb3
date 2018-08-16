@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+  	Mr/Ms <%=@customer.first_name%>,
+
+  		Thank you for your payment of RM<%=@payment_amount%>.0 for reservation number <%=@reservation.id%> for property <%=@listing.name%> hosted by <%=@host.first_name%>. Your booking will take place on <%=@reservation.check_in_date%> until <%=@reservation.check_in_date%>.
+
+  		Enjoy your stay!
+  </body>
+</html>

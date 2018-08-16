@@ -7,12 +7,13 @@ class ReservationsController < ApplicationController
   	@reservation = Reservation.new(reservation_params)
   	@reservation.user_id = current_user.id
   	if @reservation.save
+      ReservationMailer.booking_email(current_user, @reservation.listing.user, @reservation.id).deliver
   		redirect_to user_path(current_user)
   	else
       # debugger
   		# redirect_to new_reservation_path(:id => @reservation.listing_id) , notice: "Your booking has failed"
       @reservations = Reservation.all
-      render 'reservations/index'
+      render 'reservations', :flash => { :error => "Reservation failed. Please try again." }
     end
   end
 
@@ -54,10 +55,15 @@ class ReservationsController < ApplicationController
     # byebug
 
     if result.success?
+
       reservation_to_approve = Reservation.find(params[:id])
       if reservation_to_approve.booked? #fix this later
         reservation_to_approve.paid!
+        # byebug
       end
+      # byebug
+      # mailer
+      ReservationMailer.payment_made_email(User.find(reservation_to_approve.user_id), reservation_to_approve, Listing.find(reservation_to_approve.user_id), result.transaction.amount).deliver
       redirect_to :root, :flash => { :success => "Transaction successful!" }
     else
       redirect_to :root, :flash => { :error => "Transaction failed. Please try again." }
