@@ -27,7 +27,7 @@ FORM TO FILL UP RESERVATION!
 	<%=form_for(@reservation, url: create_reservation_path) do |form|%>
 		<%= render partial: '/reservations/form', object: form %>
 
-		<%=form.submit%>
+		<%=form.submit :Submit, class: 'btn btn-success btn-lg active'%>
 	<%end%>
 </div>
 

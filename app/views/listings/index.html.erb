@@ -8,30 +8,41 @@
 	</div>
 
 	<div>
-		<p>Welcome back, <%=current_user.first_name%>!</p>
+		<p>Welcome back, <%=current_user.first_name%>!<span class="badge badge-light"><%= link_to "Your Profile", user_path(current_user) %></span></p>
 	</div>
 
 	<div>
 		This is all the listings available!
-		<div>
-			<%@listings.order(created_at: :desc).each do |listing|%>
-			<div>
-				<a href="/listings/<%=listing.id%>">ID:<%=listing.id%> => Name:<%=listing.name%>
-				Created at: <%=listing.created_at%>
-				By: <%=listing.user.first_name%></a>
-				<br>
-				<!-- Only moderator/admin can see this and 2 options for verify and non verify -->
-				<%if current_user.admin? || current_user.moderator?%>
-					<%if listing.verified? == false%>
-						<%= link_to 'Verify Listing', verify_listing_path(listing), method: :patch %>
-					<%else%>
-					 	<%= link_to 'Un-verify Listing', verify_listing_path(listing), method: :patch %>
-					<%end%>
 
-				<%end%>
+		<div class="container">
+			<div class="card-columns text-center">
+				<%@listings.order(created_at: :desc).each do |listing|%>
+				<div class="card">
+					<% if listing.images.first != nil %>
+						<%=image_tag(listing.images.first.url, :style => "height: 10%", class: "img-fluid")%>
+					<%end%>
+					<h3 class="card-title"><%=listing.name%><%if listing.created_at.between?((Time.now - 48.hours), Time.now)%>
+					<span class="badge badge-pill badge-info">NEW!</span><%end%></h3>
+						<h5 class="card-subtitle"><%=listing.description%></h5>
+						<p>Hosted by <%=listing.user.first_name%> since <%=listing.created_at%>
+							<br>
+							<a href="/listings/<%=listing.id%>">Visit this property!</a>
+							<br>
+
+							<!-- Only moderator/admin can see this and 2 options for verify and non verify -->
+							<%if current_user.admin? || current_user.moderator?%>
+								<%if listing.verified? == false%>
+									<%= link_to 'Verify Listing', verify_listing_path(listing), method: :patch %>
+								<%else%>
+								 	<%= link_to 'Un-verify Listing', verify_listing_path(listing), method: :patch %>
+								<%end%>
+							<%end%>
+						</p>
+				</div>
+				<%end%>				
 			</div>
-			<%end%>
 		</div>
+
 		<!-- add a link to lead to various pages http://localhost:3000/?page=3 -->
 		
 			<%= will_paginate @listings %>
@@ -49,7 +60,7 @@
 	</div>
 	<p>??? Link to book from any listing ???</p>
 
-	Or go to your profile <%= link_to "here", user_path(current_user) %>
+	
 
 	<br>
 	<br>

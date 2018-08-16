@@ -1,7 +1,7 @@
 class Reservation < ApplicationRecord
 	#validation for check_in_date and check_out_date
 	#Enum to set role
-  enum status: [:booked, :approved, :completed]
+  enum status: [:booked, :approved, :paid, :completed]
 
   belongs_to :user
 	belongs_to :listing

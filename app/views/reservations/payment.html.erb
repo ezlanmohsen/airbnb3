@@ -1,6 +1,6 @@
 
   <script src="https://js.braintreegateway.com/web/dropin/1.12.0/js/dropin.min.js"></script>
-	Test page: Payment for reservation no xxx
+	Test page: Payment for reservation no: <%=@reservation.id%> for the amount of: RM<%=@listing.min_price%>!
 
 	<div class="demo-frame">
 
@@ -20,7 +20,7 @@
 	    <%= form.hidden_field "payment_method_nonce" %>
 
 	    <div class="button-container">
-	      <%= form.submit "Purchase", disabled: true, class: "btn btn-primary", id: "submit-payment-btn" %>
+	      <%= form.submit "Pay now", disabled: true, class: "btn btn-primary", id: "submit-payment-btn" %>
 	    </div>
 	  <% end %>
 	</div>

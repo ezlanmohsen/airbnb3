@@ -89,6 +89,7 @@
 			Made on: <%=reservation.created_at%>
 			<br><br>
 			<%= link_to "Make Payment", pay_reservation_path(listing_id: reservation.listing_id, id: reservation.id) %>
+			<br><br>
 		<%end%>
 	</div>
 

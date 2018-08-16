@@ -28,7 +28,7 @@ class ReservationsController < ApplicationController
   def approve # /reservations/:id/approve
     reservation_to_approve = Reservation.find(params[:id])
     if reservation_to_approve.booked?
-      reservation_to_approve.approved!
+      reservation_to_approve.accepted!
     end
     redirect_back fallback_location: root_path
   end
@@ -36,13 +36,15 @@ class ReservationsController < ApplicationController
   #for braintree
   def payment
     @client_token = Braintree::ClientToken.generate
+    @listing = Listing.find(params[:listing_id])
+    @reservation = Reservation.find(params[:id])
   end
 
   def checkout
     nonce_from_the_client = params[:checkout_form][:payment_method_nonce]
 
     result = Braintree::Transaction.sale(
-     :amount => "10.00", #this is currently hardcoded
+     :amount => Listing.find(params[:listing_id]).min_price, #this is currently hardcoded
      :payment_method_nonce => nonce_from_the_client,
      :options => {
         :submit_for_settlement => true
@@ -52,6 +54,10 @@ class ReservationsController < ApplicationController
     # byebug
 
     if result.success?
+      reservation_to_approve = Reservation.find(params[:id])
+      if reservation_to_approve.booked? #fix this later
+        reservation_to_approve.paid!
+      end
       redirect_to :root, :flash => { :success => "Transaction successful!" }
     else
       redirect_to :root, :flash => { :error => "Transaction failed. Please try again." }
