@@ -15,7 +15,11 @@ class UsersController < Clearance::UsersController
       @tags = Tag.all
       @tag = Tag.new
       # @reservations = Reservation.where(user_id: params[:id])
-      @reservations = Reservation.all
+      if params[:unpaid] == "unpaid"
+        @reservations = reservations.unpaid
+      else
+        @reservations = Reservation.all
+      end   
     end
   
       private

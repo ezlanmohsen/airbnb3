@@ -4,13 +4,50 @@ class ListingsController < ApplicationController
 
   def index
 
-  	@user
-    @listings = Listing.paginate(:page => params[:page], :per_page => 10)
+    @tags = Tag.all
+
+    #refer to method in model
+    if params[:reset]
+      @listings = Listing.all.paginate(:page => params[:page], :per_page => 10)
+    # elsif params[:tag]
+    #   @listings = Tag.find(params[:tag]).listings
+    elsif params[:search_name]
+      @listings = Listing.search(params[:search_name], params[:search_max_price], params[:search_country]).paginate(:page => params[:page], :per_page => 10)
+    elsif params[:tag] 
+      @listings = Tag.find(params[:tag]).listings.paginate(:page => params[:page], :per_page => 10)
+          # byebug
+      respond_to do |format|
+        format.js #refer views/listings/index/js 
+        format.html { redirect_to root_path, notice: 'Your JS AJAX Search failed' } #???
+        # format.json
+      end
+    else
+      @listings = Listing.all.paginate(:page => params[:page], :per_page => 10)
+   end
+    # MOVED TO MODEL
+    # if params[:search]
+    #   @listings = Listing.where("name LIKE ?", "%#{params[:search]}%").paginate(:page => params[:page], :per_page => 10)
+    # else
+    #   @listings = Listing.paginate(:page => params[:page], :per_page => 10)
+    # end
+
+    #NOTE - FOR INDEX HTML ERB. EQUIVALENT OF FORM TAG.
+    # <%= form_for :search, url: root_path, method: :get do |f| %> 
+    # <%= f.label :name %>
+    # <%= f.text_field :search_name %>
+    # <%= f.label :maximum_price %>
+    # <%= f.text_field :search_max_price %>
+    # <%= f.label :country %> 
+    # <%= f.text_field :seach_country %>
+    # <%= f.submit %>
+
+    # byebug
   end
 
   def show
     @listing = Listing.find(params[:id])
     @reservations = Reservation.all
+    @listing_tags = ListingTag.where(listing_id: params[:id])
   end
 
   def new
@@ -61,7 +98,6 @@ class ListingsController < ApplicationController
     end
     redirect_to listing_path(listing_to_verify)
   end
-
 
   private
  

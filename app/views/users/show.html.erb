@@ -18,6 +18,13 @@
 		</div>
 	</div>
 
+			<% form_tag root_path do %>
+			<p>
+				<%= text_field_tag :search %>
+				<%= submit_tag "Search Here!" %>
+			</p>
+		<%end%>
+
 	<br>
 	<%= link_to 'Create a new listing!', new_listing_path %>
 	<br>
@@ -78,7 +85,20 @@
 	</div>
 
 	<div>
-		<h5>You have some reservations pending! <span class="badge badge-secondary">New</span></h5>
+		<h5>All your reservations so far! <span class="badge badge-secondary">New</span></h5>
+
+		<!-- form - just reservations that have not been paid -->
+		<!-- Will return params[:unpaid] = true -->
+		<%= form_tag user_path, :method => "get" do%>
+			<input type="hidden" name="unpaid" value="unpaid">
+			<%= submit_tag "See just unpaid reservation", :name => nil %>
+		<% end %>
+
+		<%= form_tag user_path, :method => "get" do%>
+			<input type="hidden" name="anything" value="anything">
+			<%= submit_tag "See all reservations", :name => nil %>
+		<% end %>
+
 
 		<%@reservations.where(user_id: current_user.id).reverse.each do |reservation|%>
 			Reservation number: <%=reservation.id%>

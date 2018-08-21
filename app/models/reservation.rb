@@ -42,4 +42,7 @@ class Reservation < ApplicationRecord
       errors.add(:check_in_date, "Those dates are already taken. Try again!")
     end
   end
+
+  scope :unpaid, -> {where(status: "booked")}
+
 end
