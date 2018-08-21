@@ -89,28 +89,29 @@
 
 		<!-- form - just reservations that have not been paid -->
 		<!-- Will return params[:unpaid] = true -->
-		<%= form_tag user_path, :method => "get" do%>
-			<input type="hidden" name="unpaid" value="unpaid">
+		<%= form_tag user_path, :method => "get", remote: true do%>
+			<input type="hidden" name="reservation" value="unpaid">
 			<%= submit_tag "See just unpaid reservation", :name => nil %>
 		<% end %>
 
-		<%= form_tag user_path, :method => "get" do%>
-			<input type="hidden" name="anything" value="anything">
+		<%= form_tag user_path, :method => "get", remote: true do%>
+			<input type="hidden" name="reservation" value="nofilter">
 			<%= submit_tag "See all reservations", :name => nil %>
 		<% end %>
 
-
-		<%@reservations.where(user_id: current_user.id).reverse.each do |reservation|%>
-			Reservation number: <%=reservation.id%>
-			Property: <%=reservation.listing_id%>:<%=reservation.listing.name%><br>
-			Check-in Time: <%=reservation.check_in_date%><br>
-			Check-out Time: <%=reservation.check_out_date%><br>
-			Status: <%=reservation.status%><br>
-			Made on: <%=reservation.created_at%>
-			<br><br>
-			<%= link_to "Make Payment", pay_reservation_path(listing_id: reservation.listing_id, id: reservation.id) %>
-			<br><br>
-		<%end%>
+		<div id="user-reservations">
+			<%@reservations.where(user_id: current_user.id).reverse.each do |reservation|%>
+				Reservation number: <%=reservation.id%>
+				Property: <%=reservation.listing_id%>:<%=reservation.listing.name%><br>
+				Check-in Time: <%=reservation.check_in_date%><br>
+				Check-out Time: <%=reservation.check_out_date%><br>
+				Status: <%=reservation.status%><br>
+				Made on: <%=reservation.created_at%>
+				<br><br>
+				<%= link_to "Make Payment", pay_reservation_path(listing_id: reservation.listing_id, id: reservation.id) %>
+				<br><br>
+			<%end%>
+		</div>
 	</div>
 
 	Or go to <%= link_to "Homepage", root_path	%>

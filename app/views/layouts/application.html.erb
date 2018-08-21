@@ -59,7 +59,8 @@
     <!-- ??? To create another case where link sign_in and sign_in google dont appear in sign_in_path -->
     <% if signed_in? %>
       Signed in as: <%= current_user.email %>
-      <%= button_to 'Sign out', sign_out_path, method: :delete %>
+      Go to <%= link_to "Homepage", root_path  %>
+      or<%= button_to 'Sign out', sign_out_path, method: :delete %>
     <% else %>
       <%= link_to 'Sign in', sign_in_path %>
       <%= link_to "Sign in with Google", "/auth/google_oauth2" %>

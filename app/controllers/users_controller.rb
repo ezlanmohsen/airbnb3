@@ -15,8 +15,18 @@ class UsersController < Clearance::UsersController
       @tags = Tag.all
       @tag = Tag.new
       # @reservations = Reservation.where(user_id: params[:id])
-      if params[:unpaid] == "unpaid"
-        @reservations = reservations.unpaid
+      if params[:reservation] == "unpaid"
+        @reservations = Reservation.unpaid
+        respond_to do |format|
+          format.js
+          format.html {redirect_to user_path(current_user)}
+        end
+      elsif params[:reservation] == "all"
+        @reservations = Reservation.all
+        respond_to do |format|
+          format.js
+          format.html {redirect_to user_path(current_user)}
+        end
       else
         @reservations = Reservation.all
       end   

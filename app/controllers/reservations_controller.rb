@@ -33,7 +33,7 @@ class ReservationsController < ApplicationController
   def approve # /reservations/:id/approve
     reservation_to_approve = Reservation.find(params[:id])
     if reservation_to_approve.booked?
-      reservation_to_approve.accepted!
+      reservation_to_approve.approved!
     end
     redirect_back fallback_location: root_path
   end
