@@ -12,10 +12,41 @@
 	</div>
 
 	<div>
-		This is all the listings available!
+		Search for your holiday pad now!
+
+		<!-- ??? how to convert this form to FORM FOR ??? -->
+		<%= form_tag root_path, :method => 'get' do %>
+				<div>
+					<%= label_tag 'Name' %>
+					<%= text_field_tag :search_name, params[:search_name] %>
+
+					<%= label_tag 'Maximum Price(RM)' %>
+					<%= text_field_tag :search_max_price, params[:search_max_price] %>
+
+					<%= label_tag 'Country' %>
+					<%= text_field_tag :search_country, params[:search_country] %>
+				</div>
+				<div>
+					<%= submit_tag "Search", :name => nil %>
+				</div>
+		<%end%>
+
+		<!-- form to reset ie show  available -->
+		<%= form_tag root_path, :method => "get" do %>
+			<input type="hidden" name="reset" value=true/>
+			<%= submit_tag "Reset Filter", :name => nil %>
+		<% end %>
+
+		<!-- Search by tags -->
+		<% @tags.each do |tag| %>
+			<%= form_tag root_path, :method => "get", remote: true do %>
+				<%= hidden_field_tag  :tag, tag.id %>
+				<%= submit_tag tag.name, :name => nil %>
+			<% end %>
+		<% end %>
 
 		<div class="container">
-			<div class="card-columns text-center">
+			<div id="listing-list" class="card-columns text-center">
 				<%@listings.order(created_at: :desc).each do |listing|%>
 				<div class="card">
 					<% if listing.images.first != nil %>
@@ -46,18 +77,6 @@
 		<!-- add a link to lead to various pages http://localhost:3000/?page=3 -->
 		
 			<%= will_paginate @listings %>
-		<div class="pagination">
-			<ul class="pagination pagination-sm">
-			  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-			  <li class="page-item"><a class="page-link" href="http://localhost:3000/?page=1">1</a></li>
-			  <li class="page-item"><a class="page-link" href="http://localhost:3000/?page=2">2</a></li>
-			  <li class="page-item"><a class="page-link" href="http://localhost:3000/?page=3">3</a></li>
-			  <li class="page-item"><a class="page-link" href="http://localhost:3000/?page=4">4</a></li>
-			  <li class="page-item"><a class="page-link" href="http://localhost:3000/?page=5">5</a></li>
-			  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-			</ul>
-		</div>
-	</div>
 	<p>??? Link to book from any listing ???</p>
 
 	

@@ -23,7 +23,10 @@ Rails.application.routes.draw do
     resources :reservations, except: [:index]
   end
 
+  post "/listings/search" => "listings#search", as: "filtered_listing"
+
   resources :reservations, only: [:index]
+
 
   post "/listings/:listing_id/reservations" => "reservations#create", as: "create_reservation"
 

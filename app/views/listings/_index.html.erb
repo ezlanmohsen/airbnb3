@@ -1,0 +1,32 @@
+		<div class="container">
+			<div id="listing-list" class="card-columns text-center">
+				<%@listings.order(created_at: :desc).each do |listing|%>
+				<div class="card">
+					<% if listing.images.first != nil %>
+						<%=image_tag(listing.images.first.url, :style => "height: 10%", class: "img-fluid")%>
+					<%end%>
+					<h3 class="card-title"><%=listing.name%><%if listing.created_at.between?((Time.now - 48.hours), Time.now)%>
+					<span class="badge badge-pill badge-info">NEW!</span><%end%></h3>
+						<h5 class="card-subtitle"><%=listing.description%></h5>
+						<p>Hosted by <%=listing.user.first_name%> since <%=listing.created_at%>
+							<br>
+							<a href="/listings/<%=listing.id%>">Visit this property!</a>
+							<br>
+
+							<!-- Only moderator/admin can see this and 2 options for verify and non verify -->
+							<%if current_user.admin? || current_user.moderator?%>
+								<%if listing.verified? == false%>
+									<%= link_to 'Verify Listing', verify_listing_path(listing), method: :patch %>
+								<%else%>
+								 	<%= link_to 'Un-verify Listing', verify_listing_path(listing), method: :patch %>
+								<%end%>
+							<%end%>
+						</p>
+				</div>
+				<%end%>				
+			</div>
+		</div>
+
+		<!-- add a link to lead to various pages http://localhost:3000/?page=3 -->
+		
+		<%= will_paginate @listings %>

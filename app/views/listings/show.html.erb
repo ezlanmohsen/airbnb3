@@ -14,6 +14,12 @@
 	Maximum guest(s) allowed: <%=@listing.max_guest%><br>
 	Price per night ranges from (RM): <%=@listing.min_price%> - <%=@listing.max_price%><br><br>
 	<div>
+	Tags associated!:<br>
+		<%@listing_tags.each do |lt|%>
+			<a href="/tags/<%=lt.tag.id%>"><%=lt.tag.name%></a>
+		<%end%>
+	</div>
+	<div>
 	Photo Gallery:<br>
 		<%@listing.images.each do |p|%>
 					<%=image_tag(p.url, height: '100', width: '100')%>
