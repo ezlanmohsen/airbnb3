@@ -6,6 +6,9 @@ class Reservation < ApplicationRecord
   belongs_to :user
 	belongs_to :listing
 
+  # include PgSearch
+  # pg_search_scope :search_by_status, against: [:status]
+
 	#validations
 	validates :user_id, presence: true
 	validates :listing_id, presence: true

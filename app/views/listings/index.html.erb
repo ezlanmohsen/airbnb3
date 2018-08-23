@@ -2,48 +2,66 @@
 
 <% if signed_in? %>
 
-	<div>
-		<h1>The world of Hey-BNB</h1>
-		<p>Make your bed then lie in it!</p>
-	</div>
 
-	<div>
-		<p>Welcome back, <%=current_user.first_name%>!</p>
-	</div>
 
-	<div>
-		Search for your holiday pad now!
+    <section class="page-section cta">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-11 mx-auto">
+            <div class="cta-inner text-center rounded">
+              <h2 class="section-heading mb-4">
+                <span class="section-heading-upper">With 1 click</span>
+                <span class="section-heading-lower">Search for your holiday pad now</span>
+              </h2>
+                  <div>
+					<!-- ??? how to convert this form to FORM FOR ??? -->
+					<%= form_tag root_path, :method => 'get' do %>
+							<div class="row">
+								<div class="col-xl-3 mx-auto">
+									<%= label_tag 'Name' %>
+									<%= text_field_tag :search_name, params[:search_name] %>
+								</div>
+								<div class="col-xl-3 mx-auto">
+									<%= label_tag 'Maximum Price(RM)' %>
+									<%= text_field_tag :search_max_price, params[:search_max_price] %>
+								</div>
+								<div class="col-xl-3 mx-auto">
+									<%= label_tag 'Country' %>
+									<%= text_field_tag :search_country, params[:search_country] %>
+								</div>
+							</div>
+							<br>
+								<div>
+									<!-- form to reset ie show  available -->
+									<%= submit_tag "Search", :name => nil %>
+										
+								</div>
+					<%end%>
+									<%= form_tag root_path, :method => "get" do %>
+									<input type="hidden" name="reset" value=true/>
+										<%= submit_tag "Reset Filter", :name => nil %>
+									<% end %>
+					</div>
 
-		<!-- ??? how to convert this form to FORM FOR ??? -->
-		<%= form_tag root_path, :method => 'get' do %>
-				<div>
-					<%= label_tag 'Name' %>
-					<%= text_field_tag :search_name, params[:search_name] %>
+					<br>
 
-					<%= label_tag 'Maximum Price(RM)' %>
-					<%= text_field_tag :search_max_price, params[:search_max_price] %>
+					<div>	
+						<h5><span class="section-heading-upper">Or search by tags!</span></h5>
+						<% @tags.each do |tag| %>
+							<%= form_tag root_path, :method => "get", remote: true do %>
+							<%= hidden_field_tag  :tag, tag.id %>
+							<%= submit_tag tag.name, :name => nil %>
+							<% end %>
+						<% end %>
+					</div>	
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-					<%= label_tag 'Country' %>
-					<%= text_field_tag :search_country, params[:search_country] %>
-				</div>
-				<div>
-					<%= submit_tag "Search", :name => nil %>
-				</div>
-		<%end%>
+    		<!-- Search by tags -->
 
-		<!-- form to reset ie show  available -->
-		<%= form_tag root_path, :method => "get" do %>
-			<input type="hidden" name="reset" value=true/>
-			<%= submit_tag "Reset Filter", :name => nil %>
-		<% end %>
-
-		<!-- Search by tags -->
-		<% @tags.each do |tag| %>
-			<%= form_tag root_path, :method => "get", remote: true do %>
-				<%= hidden_field_tag  :tag, tag.id %>
-				<%= submit_tag tag.name, :name => nil %>
-			<% end %>
-		<% end %>
 
 		<div class="container">
 			<div id="listing-list" class="card-columns text-center">
@@ -74,12 +92,10 @@
 			</div>
 		</div>
 
-		<!-- add a link to lead to various pages http://localhost:3000/?page=3 -->
-		
+	<div class="pagination-wrapper">
 			<%= will_paginate @listings %>
-	<p>??? Link to book from any listing ???</p>
+	</div>
 
-	
 
 	<br>
 	<br>

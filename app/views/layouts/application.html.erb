@@ -16,58 +16,56 @@
 
   <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <span class="navbar-brand mb-0 h1">HEY-BNB</span>
-      <img class="navbar-brand mb-0 h1" src="https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwj-3eeA6uzcAhXDb30KHbQ8DywQjRx6BAgBEAU&url=https%3A%2F%2Fknowyourmeme.com%2Fmemes%2Fsites%2Fairbnb&psig=AOvVaw1MVOI7syGIOsTC5QQ5xru2&ust=1534345892827132">
-<!--         <a class="navbar-brand" href="#">
-            <img src="https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwj-3eeA6uzcAhXDb30KHbQ8DywQjRx6BAgBEAU&url=https%3A%2F%2Fknowyourmeme.com%2Fmemes%2Fsites%2Fairbnb&psig=AOvVaw1MVOI7syGIOsTC5QQ5xru2&ust=1534345892827132" width="30" height="30" alt="">
-        </a> -->
-      <button class="navbar-toggler" type="button" data_toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation" >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav mr-auto">    
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Make a Reservation!</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Your Listings!
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Add Listing</a>
-                <a class="dropdown-item" href="#">Edit Listing</a>
-                <a class="dropdown-item" href="#">Tag Your Listing</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Approve Reservation</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Your Profile!<span class="sr-only">(current)</span></a>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link disabled" href="#">Disabled</a>
-            </li> -->
-        </ul>
-        <form class="form-inline my-2 my-lg-0 d-inline-flex p-2 bd-highlight "> 
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search For Listing</button>
-        </form>
-      </div>    
-    </nav>
+
     <!-- for clearance Signup-Signin -->
     <!-- ??? To create another case where link sign_in and sign_in google dont appear in sign_in_path -->
-    <% if signed_in? %>
-      Signed in as: <%= current_user.email %>
-      <div>
-        <!-- Fix to not see this either in homepage or in user path -->
-        Go to <%= link_to "Homepage", root_path  %> or <%= link_to "Your Profile", user_path(current_user) %>
+    <div class="text-center">
+      <% if signed_in? %>
+        Signed in as: <%= current_user.email %>
+        <div>
+          <!-- Fix to not see this either in homepage or in user path -->
+          Go to <%= link_to "Homepage", root_path  %> or <%= link_to "Your Profile", user_path(current_user) %>
+        </div>
+        <%= button_to 'Sign out', sign_out_path, method: :delete %>
+      <% else %>
+        <%= link_to 'Sign in', sign_in_path %>
+        <%= link_to "Sign in with Google", "/auth/google_oauth2" %>
+      <% end %>
+    </div>
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="#">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item active px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="index.html">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="<%=user_path(current_user)%>">Your Profile</a>
+            </li>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="products.html">Products</a>
+            </li>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="store.html">Store</a>
+            </li>
+          </ul>
+        </div>
       </div>
-      <%= button_to 'Sign out', sign_out_path, method: :delete %>
-    <% else %>
-      <%= link_to 'Sign in', sign_in_path %>
-      <%= link_to "Sign in with Google", "/auth/google_oauth2" %>
-    <% end %>
+    </nav>
+
+    <h1 class="site-heading text-center text-white d-none d-lg-block">
+      <span class="site-heading-upper text-primary mb-3">WELCOME TO HEY BNB!</span>
+      <span class="site-heading-lower">A place to find your temporary home!</span>
+    </h1>
 
     <div id="flash">
       <% flash.each do |key, value| %>
@@ -76,9 +74,16 @@
     </div>
 
 
-
-
-
     <%= yield %>
+
+    <footer class="footer text-faded text-center py-5">
+      <div class="container">
+        <p class="m-0 small">Copyright &copy; Your Website 2018</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
